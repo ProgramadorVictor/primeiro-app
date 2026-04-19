@@ -1,35 +1,62 @@
-import { useState } from "react"; //Importanto o hook para trabalhar com estado reativas.
+import { useState } from "react";
 
-import NomeImportar from "./components/NomeImportar";
+function App(){
+  const [nome, setNome] = useState();
+  const [idade, setIdade] = useState();
+  const [email, setEmail] = useState();
+  const [user, setUser] = useState({});
+  
+  function handleRegister(e){
+    e.preventDefault(); //Prevenindo o comportamento padrão do form
 
-//Isso aqui é um componente
-function App() { //Criação de componentes em mode de função primeira letra
-  const [aluno, setAluno] = useState('Sujeito Programador');
-  //[Nome do useState/Estado, set + nome do estado que vai ser trocado] = useState('Valor padrão')
+    alert('Usuario registrado com sucesso');
 
-  function handleChangeName(nome){ //Definindo uma função a ser usada no componente.
-    setAluno(nome);
+    setUser({ //Trabalhando com um objeto, associando as variaveis ao objeto.
+      nome: nome,
+      idade: idade,
+      email: email
+    });
   }
 
   return (
     <div>
-      <h1 className="">Componente App</h1>
-      <NomeImportar aluno="Victor" idade="30"/> {/* Como esta no mesmo arquivo o componente podemos reutilizar sem importar  */}
-      <h2>Olá: {aluno}</h2>
-      <button onClick={ () => handleChangeName('Victor')}> {/* Criação de uma função para disparar a troca do useState de aluno */}
-        Mudar nome
-      </button>
-      {/* <button onClick={ handleChangeName('Lucas') }></button> Vai renderizar muitas vezes e causar erros para corrigir, utilize abaixo */}
-      <button onClick={ () => handleChangeName('Lucas') }>{/* Utilizando a função anonima para corrigir o problema acima */}
-        Mudar nome
-      </button>
-    </div>
-  )
-}
-export default App; //Exportando para outras partes do site possam utiliazar este componente.
+      <h1>Cadastrando Usuario</h1>
+      <form onSubmit={handleRegister}>
+        <label>Nome:</label><br />
+        <input
+          type="text"
+          placeholder="Digite seu nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        /><br />
 
-function Nome(){
-  return (
-    <span>Bem-vindo: Victor</span>
+        <label>E-mail:</label><br />
+        <input
+        type="email"
+        placeholder="Digite seu e-mail"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        /><br />
+
+        <label>Idade:</label><br />
+        <input
+        type="number"
+        placeholder="Digite seu idade"
+        value={idade}
+        onChange={(e) => setIdade(e.target.value)}
+        /><br />
+
+        <button>Enviar</button>
+      </form>
+
+      <div>
+        <span>Bem vindo: {user.nome}</span><br />
+        <span>Idade: {user.idade}</span><br />
+        <span>Email: {user.email}</span><br />
+      </div>
+    </div>
   );
 }
+
+export default App;
+
