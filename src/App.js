@@ -1,51 +1,36 @@
 import { useEffect, useState } from "react";
+import './style.css';
 
 function App(){
-    const [input, setInput] = useState('');
-    const [tarefas, setTarefas] = useState([]);
-
+    const [nutri, setNutri] = useState([])
     useEffect(() => {
-        const tarefasStorage = localStorage.getItem('@tarefas');
-        if(tarefasStorage){
-            setTarefas(JSON.parse(tarefasStorage));
+        function req(){
+            let url = "https://sujeitoprogramador.com/rn-api/?api=posts";
+            fetch(url).then((r) => r.json()).then((json) => {setNutri(json);});
         }
-    }, []);
+        req();
+    }, [])
+    return(
+        <div className="container">
+            <header>
+                <strong>React Nutri</strong>
+            </header>
 
-    useEffect(() => {
-        localStorage.setItem('@tarefas', JSON.stringify(tarefas));
-    }, [tarefas]); //Assistindo uma propriedade, reage a mudança
+            {nutri.map((item)=>{
+                return(
+                <article key={item.id} className="post">
+                    <strong className="titulo">{item.titulo}</strong>
 
-    
-    function handleRegister(e){
-        e.preventDefault();
-        
-        setTarefas([...tarefas, input]) //Spread Operador 
-        setInput('')
-
-    }
-
-    return (
-        <div>
-        <h1>Cadastrando Tarefas</h1>
-        <form onSubmit={handleRegister}>
-            <label>Nome:</label><br />
-            <input
-            type="text"
-            placeholder="Nome da Tarefa"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            /><br />
-
-            <button>Cadastrar</button>
-        </form>
-
-        <ul>
-            {tarefas.map(tarefa => (
-            <li key={tarefa}>{tarefa}</li> //Toda lista deve ter um id/key para o react não se perder.
-            ))}
-        </ul>
+                    <img src={item.capa} alt={item.titulo} className="capa" />
+                    <p className="subtitulo">
+                        {item.subtitulo}
+                    </p>
+                    <a className="botao">Acessar</a>
+                </article>
+                )
+            })}
         </div>
-    );
+    )
 }
 
 export default App;
