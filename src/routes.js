@@ -5,7 +5,7 @@ import Contato from "./pages/Contato";
 import Erro from "./pages/Erro";
 import Produto from  "./pages/Produto";
 import Header from "./components/Header";
-
+import StyledComponent from "./pages/StyledComponent";
 
 const Routes = () => { //Utilizando o React Route Dom v5
     return(
@@ -16,6 +16,7 @@ const Routes = () => { //Utilizando o React Route Dom v5
                 <Route exact path="/sobre" component={Sobre}/>
                 <Route exact path="/contato" component={Contato}/>
                 <Route exact path="/produto/:id" component={Produto}/>
+                <Route path="/styled" component={StyledComponent}/>
                 <Route path="*" component={Erro}/> {/* Rota de fallback/erro, tem que ser sempre a ultima */}
             </Switch>
         </BrowserRouter>
